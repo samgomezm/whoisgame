@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crear partida</title>
+
+<style>
+    body {
+        font-family: Arial;
+        padding: 20px;
+        background: #f4f4f4;
+    }
+    textarea {
+        width: 100%;
+        height: 150px;
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+    button {
+        margin-top: 20px;
+        padding: 15px;
+        font-size: 1.2rem;
+        background: #0078ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    #link {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        word-break: break-all;
+    }
+</style>
+</head>
+<body>
+
+<h2>Ingresa los nombres de los jugadores</h2>
+
+<textarea id="nombres" placeholder="Ejemplo: Ana, Beto, Carlos"></textarea>
+
+<button onclick="crearLink()">Generar link</button>
+
+<div id="link"></div>
+
+<script>
+function crearLink() {
+    let texto = document.getElementById("nombres").value.trim();
+
+    if (!texto) {
+        alert("Ingresa al menos un nombre.");
+        return;
+    }
+
+    // Separar por comas o saltos de línea
+    let lista = texto.split(/[\n,]+/).map(n => n.trim()).filter(n => n);
+
+    let url = window.location.origin + window.location.pathname.replace("index.html", "") +
+              "juego.html?jugadores=" + encodeURIComponent(lista.join(","));
+
+    document.getElementById("link").innerHTML = 
+        `<p>Comparte este link:</p><a href="${url}" target="_blank">${url}</a>`;
+}
+</script>
+
+</body>
+</html>
