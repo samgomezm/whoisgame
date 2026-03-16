@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selecciona un jugador</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial;
+        background: #f4f4f4;
+        text-align: center;
+    }
+
+    #lista, #pantalla-nombre {
+        display: none;
+        padding: 20px;
+    }
+
+    .activo {
+        display: block;
+    }
+
+    .jugador {
+        background: #0078ff;
+        color: white;
+        padding: 20px;
+        margin: 10px 0;
+        border-radius: 10px;
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+    #nombre-grande {
+        font-size: clamp(3rem, 10vw, 8rem);
+        margin-top: 30px;
+    }
+
+    button {
+        padding: 15px 25px;
+        font-size: 1.2rem;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div id="lista" class="activo">
+    <h2>Selecciona un jugador</h2>
+    <div id="contenedor-jugadores"></div>
+</div>
+
+<div id="pantalla-nombre">
+    <div id="nombre-grande"></div>
+    <button id="btn-volver">Volver</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    function obtenerJugadores() {
+        const params = new URLSearchParams(window.location.search);
+        const lista = params.get("jugadores");
+        if (!lista) return [];
+        return lista.split(",");
+    }
+
+    const jugadores = obtenerJugadores();
+    const contenedor = document.getElementById("contenedor-jugadores");
+
+    jugadores.forEach(nombre => {
+        const btn = document.createElement("div");
+        btn.className = "jugador";
+        btn.textContent = nombre;
+
+        btn.addEventListener("click", () => {
+            document.getElementById("lista").classList.remove("activo");
+            document.getElementById("pantalla-nombre").classList.add("activo");
+            document.getElementById("nombre-grande").textContent = nombre;
+        });
+
+        contenedor.appendChild(btn);
+    });
+
+    document.getElementById("btn-volver").addEventListener("click", () => {
+        document.getElementById("pantalla-nombre").classList.remove("activo");
+        document.getElementById("lista").classList.add("activo");
+    });
+
+});
+</script>
+
+</body>
+</html>
