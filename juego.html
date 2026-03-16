@@ -58,37 +58,33 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+function obtenerJugadores() {
+    const params = new URLSearchParams(window.location.search);
+    const lista = params.get("jugadores");
+    if (!lista) return [];
+    return lista.split(",");
+}
 
-    function obtenerJugadores() {
-        const params = new URLSearchParams(window.location.search);
-        const lista = params.get("jugadores");
-        if (!lista) return [];
-        return lista.split(",");
-    }
+const jugadores = obtenerJugadores();
+const contenedor = document.getElementById("contenedor-jugadores");
 
-    const jugadores = obtenerJugadores();
-    const contenedor = document.getElementById("contenedor-jugadores");
+jugadores.forEach(nombre => {
+    const btn = document.createElement("div");
+    btn.className = "jugador";
+    btn.textContent = nombre;
 
-    jugadores.forEach(nombre => {
-        const btn = document.createElement("div");
-        btn.className = "jugador";
-        btn.textContent = nombre;
-
-        btn.addEventListener("click", () => {
-            document.getElementById("lista").classList.remove("activo");
-            document.getElementById("pantalla-nombre").classList.add("activo");
-            document.getElementById("nombre-grande").textContent = nombre;
-        });
-
-        contenedor.appendChild(btn);
+    btn.addEventListener("click", () => {
+        document.getElementById("lista").classList.remove("activo");
+        document.getElementById("pantalla-nombre").classList.add("activo");
+        document.getElementById("nombre-grande").textContent = nombre;
     });
 
-    document.getElementById("btn-volver").addEventListener("click", () => {
-        document.getElementById("pantalla-nombre").classList.remove("activo");
-        document.getElementById("lista").classList.add("activo");
-    });
+    contenedor.appendChild(btn);
+});
 
+document.getElementById("btn-volver").addEventListener("click", () => {
+    document.getElementById("pantalla-nombre").classList.remove("activo");
+    document.getElementById("lista").classList.add("activo");
 });
 </script>
 
